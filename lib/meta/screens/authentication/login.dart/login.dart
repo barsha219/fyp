@@ -6,10 +6,18 @@ import 'package:beauty_store/widgets/primary_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);
 
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  bool loading = false;
+
   final TextEditingController _email = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
 
   @override
@@ -40,6 +48,7 @@ class LoginView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: PrimaryButton(
+                  loading: loading,
                   title: "Login",
                   onTap: () async {
                     FocusScope.of(context).unfocus();
@@ -51,8 +60,21 @@ class LoginView extends StatelessWidget {
                     } else if (_password.text.isEmpty) {
                       Fluttertoast.showToast(msg: "Password cannot be empty");
                     } else {
-                      await AuthService()
-                          .login(_email.text, _password.text, context);
+                      try {
+                        setState(() {
+                          loading = true;
+                        });
+                        await AuthService.instance
+                            .login(_email.text, _password.text, context);
+                        setState(() {
+                          loading = false;
+                        });
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: e.toString());
+                        setState(() {
+                          loading = false;
+                        });
+                      }
                     }
                   },
                 ),

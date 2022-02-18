@@ -42,18 +42,18 @@ class PrimaryButton extends StatelessWidget {
               backgroundColor:
                   MaterialStateProperty.all(const Color(0xfffff8f8)),
               padding: MaterialStateProperty.all(
-                  EdgeInsets.symmetric(horizontal: 45, vertical: 12)),
+                  const EdgeInsets.symmetric(horizontal: 45, vertical: 12)),
             ),
         child: (loading)
             ? SizedBox(
                 height: 18.h,
-                width: 16.w,
+                width: 18.h,
                 child: const AppCircularProgressIndicator(),
               )
             : Text(
                 title,
                 style: textStyle ??
-                    TextStyle(
+                    const TextStyle(
                         color: Colors.black54,
                         fontSize: 12,
                         fontWeight: FontWeight.w400),

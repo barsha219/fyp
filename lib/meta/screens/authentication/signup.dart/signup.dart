@@ -6,13 +6,24 @@ import 'package:beauty_store/widgets/primary_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
   SignUpView({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  bool loading = false;
+
   final TextEditingController _email = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
+
   final TextEditingController _phone = TextEditingController();
+
   final TextEditingController _name = TextEditingController();
+
   final TextEditingController _address = TextEditingController();
 
   Widget build(BuildContext context) {
@@ -49,6 +60,7 @@ class SignUpView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: PrimaryButton(
+                  loading: loading,
                   title: "SignUp",
                   onTap: () async {
                     FocusScope.of(context).unfocus();
@@ -78,8 +90,13 @@ class SignUpView extends StatelessWidget {
                             password: _password.text,
                             phone: _phone.text,
                             address: _address.text);
+                        setState(() {
+                          loading = true;
+                        });
                       } catch (e) {
-                        Fluttertoast.showToast(msg: e.toString());
+                        setState(() {
+                          loading = false;
+                        });
                       }
                     }
                   },
