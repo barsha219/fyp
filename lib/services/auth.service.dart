@@ -1,11 +1,15 @@
 import 'dart:developer';
 import 'package:beauty_store/meta/screens/home/home.dart';
+import 'package:beauty_store/models/user.model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 
+//singleton(single instance of a class) pattern for Auth service
 class AuthService {
-  static final AuthService instance = AuthService._internal();
+  User? user;
+  static final AuthService instance =
+      AuthService._internal(); //instance of a class
 
   factory AuthService() {
     return instance;
@@ -22,6 +26,8 @@ class AuthService {
         "password": password,
       });
       if (response.statusCode == 200) {
+        user = UserResponse.fromMap(response.data)
+            .user; //assigning the value to user property of authservice
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -52,6 +58,7 @@ class AuthService {
         "address": address,
       });
       if (response.statusCode == 200) {
+        user = UserResponse.fromMap(response.data).user;
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const HomeView()));
       } else {
