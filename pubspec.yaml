@@ -38,6 +38,11 @@ dependencies:
   fluttertoast: ^8.0.8
   google_fonts: ^2.2.0
   flutter_screenutil: ^5.2.0
+  snapshot: ^0.2.5  # A library that can be used to implement data classes
+  cached_network_image: ^3.2.0  # A flutter library to show images from the internet and keep them in the cache directory.
+
+
+
 
 dev_dependencies:
   flutter_test:

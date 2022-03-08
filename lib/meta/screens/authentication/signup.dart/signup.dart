@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpView extends StatefulWidget {
-  SignUpView({Key? key}) : super(key: key);
+  const SignUpView({Key? key}) : super(key: key);
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -26,6 +26,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   final TextEditingController _address = TextEditingController();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(

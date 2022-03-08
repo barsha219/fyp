@@ -1,12 +1,59 @@
-import 'package:beauty_store/meta/screens/dashboard/dashboard.dart';
+import 'dart:developer';
+import 'dart:ffi';
+
+import 'package:beauty_store/meta/screens/home/seeMoreProdu.dart';
 import 'package:beauty_store/meta/screens/product.details.dart';
-import 'package:beauty_store/models/product_model.dart';
+import 'package:beauty_store/models/category_models.dart';
+import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/product.service.dart';
+import 'package:beauty_store/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // local state
+  List<Product>? _products;
+  List<Product>? _productDub;
+  String? category;
+  List<Category>? _categories;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    try {
+      _productDub = _products;
+      _products = await ProductService().fetchAllProduct();
+      _categories = await ProductService().fetchAllProductCategory();
+      setState(() {});
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  searchForProduct(String name) {
+    category = name;
+    setState(() {});
+    if (name == "All") {
+      _products = _products;
+      setState(() {});
+    } else {
+      _productDub = _products?.where((element) {
+        return element.category == name;
+      }).toList();
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +71,10 @@ class HomeView extends StatelessWidget {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            await ProductService().fetchProduct();
+            await ProductService().fetchAllProduct();
+            await ProductService().fetchAllProductCategory();
+            _productDub = _products;
+            setState(() {});
           },
           child: CustomScrollView(slivers: [
             SliverToBoxAdapter(
@@ -43,11 +93,31 @@ class HomeView extends StatelessWidget {
                 ),
               ),
             ),
-            // const SliverToBoxAdapter(
-            //     // child: SizedBox(
-            //     //   height: 30,
-            //     // ),
-            //     ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: _categories?.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: ActionChip(
+                        backgroundColor: _categories?[index].name == category
+                            ? Colors.blue.shade500
+                            : const Color.fromARGB(255, 228, 228, 228),
+                        onPressed: () {
+                          searchForProduct(_categories![index].name!);
+                        },
+                        label: Text(_categories?[index].name ?? ""),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SliverToBoxAdapter(
               child: Container(
                 padding: const EdgeInsets.all(6),
@@ -62,20 +132,31 @@ class HomeView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 8),
                       child: Row(
-                        children: const [
-                          Text(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
                             "Our Products",
                             style: TextStyle(
                               fontSize: 18,
                             ),
                           ),
+                          TextButton(
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SeeMore(),
+                                  )),
+                              child: const Text(
+                                "see more",
+                                style: TextStyle(color: Colors.black),
+                              )),
                         ],
                       ),
                     ),
                     SizedBox(
                         height: 200,
                         child: FutureBuilder<List<Product>>(
-                            future: ProductService().fetchProduct(),
+                            future: ProductService().fetchAllProduct(),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
                                 return const Center(
@@ -89,61 +170,60 @@ class HomeView extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   Product product = products[index];
                                   return SizedBox(
-                                      width: 120.0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (_) {
-                                            return ProductDetails(
-                                              product: product,
-                                            );
-                                          }));
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Card(
-                                              color: Colors.white,
-                                              child: Container(
-                                                height: 160,
-                                                width: 100,
-                                                decoration: snapshot.data !=
-                                                        null
-                                                    ? BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              product.image ??
-                                                                  ""),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      )
-                                                    : null,
-                                              ),
+                                    width: 120.0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (_) {
+                                          return ProductDetails(
+                                            product: product,
+                                          );
+                                        }));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Card(
+                                            color: Colors.white,
+                                            child: Container(
+                                              height: 160,
+                                              width: 100,
+                                              decoration: snapshot.data != null
+                                                  ? BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            product.image ??
+                                                                ""),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    )
+                                                  : null,
                                             ),
-                                            Container(
-                                              width: double.infinity,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 6),
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: const Color.fromARGB(
-                                                      255, 228, 228, 228)),
-                                              child: Text(
-                                                product.name ?? "",
-                                                textAlign: TextAlign.center,
-                                                softWrap: true,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
+                                          ),
+                                          Container(
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 6),
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: const Color.fromARGB(
+                                                    255, 228, 228, 228)),
+                                            child: Text(
+                                              product.name ?? "",
+                                              textAlign: TextAlign.center,
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ],
-                                        ),
-                                      ));
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
                                 },
                               );
                             })),
@@ -154,26 +234,7 @@ class HomeView extends StatelessWidget {
           ]),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Center(child: Column()),
-            ),
-            ListTile(
-              title: const Text("Logout"),
-              onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashBoardView())),
-            ),
-          ],
-        ),
-      ),
+      drawer: const MyDrawer(),
     );
   }
 }

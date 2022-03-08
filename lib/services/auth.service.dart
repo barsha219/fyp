@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:beauty_store/meta/screens/home/home.dart';
-import 'package:beauty_store/models/user.model.dart';
+import 'package:beauty_store/models/user_models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';

@@ -1,4 +1,4 @@
-import 'package:beauty_store/models/product_model.dart';
+import 'package:beauty_store/models/product_models.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatefulWidget {
