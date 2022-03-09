@@ -2,6 +2,7 @@
 import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/widgets/cacheImageView.dart';
+import 'package:snapshot/snapshot.dart';
 import 'package:flutter/material.dart';
 
 class ProductWidget extends StatelessWidget {
@@ -18,35 +19,40 @@ class ProductWidget extends StatelessWidget {
           );
         }));
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Container(
-          // width: MediaQuery.of(context).size.width * 0.42,
-          width: 90,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-          child: Column(
-            children: [
-              Expanded(
-                child: CacheImageViewer(
-                  image: product.image ?? "",
-                  width: MediaQuery.of(context).size.width * 32,
-                  height: MediaQuery.of(context).size.height * 0.64,
-                  // width: 90,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                product.name ?? "",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(fontSize: 15),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+      child: Column(
+        children: [
+          Card(
+            color: Colors.white,
+            child: Container(
+              height: 160,
+              width: 100,
+              decoration: List<Product> != null
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      image: DecorationImage(
+                        image: NetworkImage(product.image ?? ""),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : null,
+            ),
           ),
-        ),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 228, 228, 228)),
+            child: Text(
+              product.name ?? "",
+              textAlign: TextAlign.center,
+              softWrap: true,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

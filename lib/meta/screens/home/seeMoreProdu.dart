@@ -34,7 +34,7 @@ class _SeeMoreState extends State<SeeMore> {
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 0),
+            crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 0),
         itemCount: _products?.length ?? 0,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(6),
