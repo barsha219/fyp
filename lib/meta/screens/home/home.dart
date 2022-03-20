@@ -3,8 +3,10 @@ import 'package:beauty_store/meta/screens/home/seeMoreProdu.dart';
 import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/models/category_models.dart';
 import 'package:beauty_store/models/product_models.dart';
+import 'package:beauty_store/models/services.models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/product.service.dart';
+import 'package:beauty_store/services/services.service.dart';
 import 'package:beauty_store/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   // local state
   List<Product>? _products;
+  List<Services>? _services;
   List<Product>? _productDub;
   String? category;
   List<Category>? _categories;
@@ -31,9 +34,11 @@ class _HomeViewState extends State<HomeView> {
   init() async {
     try {
       _products = await ProductService().fetchAllProduct();
+      _services = await ServicesItems().fetchAllServices();
       _productDub = _products;
       _categories = await ProductService().fetchAllProductCategory();
       _categories = [Category(id: '1234', name: 'All'), ...?_categories];
+      setState(() {});
       setState(() {});
       setState(() {});
     } catch (e) {
@@ -72,6 +77,7 @@ class _HomeViewState extends State<HomeView> {
         child: RefreshIndicator(
           onRefresh: () async {
             _products = await ProductService().fetchAllProduct();
+            _services = await ServicesItems().fetchAllServices();
             _categories = await ProductService().fetchAllProductCategory();
             _categories = [Category(id: '1234', name: 'All'), ...?_categories];
             _productDub = _products;
@@ -254,79 +260,80 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
 
-                  // Products dummy data
-                  // SizedBox(
-                  //     height: 180,
-                  //     child: FutureBuilder<List<Product>>(
-                  //         future: ProductService().fetchAllProduct(),
-                  //         builder: (context, snapshot) {
-                  //           if (!snapshot.hasData) {
-                  //             return const Center(child: Text("No Data Found"));
-                  //           }
-                  //           List<Product> products =
-                  //               snapshot.data as List<Product>;
-                  //           return ListView.builder(
-                  //             scrollDirection: Axis.horizontal,
-                  //             itemCount: products.length,
-                  //             itemBuilder: (context, index) {
-                  //               Product product = products[index];
-                  //               return SizedBox(
-                  //                 width: 120.0,
-                  //                 child: InkWell(
-                  //                   onTap: () {
-                  //                     Navigator.push(context,
-                  //                         MaterialPageRoute(builder: (_) {
-                  //                       return ProductDetails(
-                  //                         product: product,
-                  //                       );
-                  //                     }));
-                  //                   },
-                  //                   child: Column(
-                  //                     children: [
-                  //                       Card(
-                  //                         color: Colors.white,
-                  //                         child: Container(
-                  //                           height: 140,
-                  //                           width: 100,
-                  //                           decoration: snapshot.data != null
-                  //                               ? BoxDecoration(
-                  //                                   borderRadius:
-                  //                                       BorderRadius.circular(
-                  //                                           5.0),
-                  //                                   image: DecorationImage(
-                  //                                     image: NetworkImage(
-                  //                                         product.image ?? ""),
-                  //                                     fit: BoxFit.cover,
-                  //                                   ),
-                  //                                 )
-                  //                               : null,
-                  //                         ),
-                  //                       ),
-                  //                       Container(
-                  //                         width: double.infinity,
-                  //                         margin: const EdgeInsets.symmetric(
-                  //                             horizontal: 6),
-                  //                         padding: const EdgeInsets.all(4),
-                  //                         decoration: BoxDecoration(
-                  //                             borderRadius:
-                  //                                 BorderRadius.circular(10),
-                  //                             color: const Color.fromARGB(
-                  //                                 255, 228, 228, 228)),
-                  //                         child: Text(
-                  //                           product.name ?? "",
-                  //                           textAlign: TextAlign.center,
-                  //                           softWrap: true,
-                  //                           maxLines: 1,
-                  //                           overflow: TextOverflow.ellipsis,
-                  //                         ),
-                  //                       ),
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               );
-                  //             },
-                  //           );
-                  //         })),
+                  // Services data
+                  SizedBox(
+                      height: 180,
+                      child: FutureBuilder<List<Services>>(
+                          future: ServicesItems().fetchAllServices(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                  child: Text("No Services Found"));
+                            }
+                            List<Services> _services =
+                                snapshot.data as List<Services>;
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _services.length,
+                              itemBuilder: (context, index) {
+                                Services service = _services[index];
+                                return SizedBox(
+                                  width: 120.0,
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Navigator.push(context,
+                                      //     MaterialPageRoute(builder: (_) {
+                                      //   return ProductDetails(
+                                      //     service: service,
+                                      //   );
+                                      // }));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Card(
+                                          color: Colors.white,
+                                          child: Container(
+                                            height: 140,
+                                            width: 100,
+                                            decoration: snapshot.data != null
+                                                ? BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          service.image),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  )
+                                                : null,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 6),
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: const Color.fromARGB(
+                                                  255, 228, 228, 228)),
+                                          child: Text(
+                                            service.name,
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          })),
                 ],
               ),
             )),
