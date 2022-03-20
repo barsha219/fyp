@@ -1,13 +1,10 @@
 import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:beauty_store/meta/screens/home/seeMoreProdu.dart';
 import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/models/category_models.dart';
 import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/product.service.dart';
-import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:beauty_store/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -33,9 +30,11 @@ class _HomeViewState extends State<HomeView> {
 
   init() async {
     try {
-      _productDub = _products;
       _products = await ProductService().fetchAllProduct();
+      _productDub = _products;
       _categories = await ProductService().fetchAllProductCategory();
+      _categories = [Category(id: '1234', name: 'All'), ...?_categories];
+      setState(() {});
       setState(() {});
     } catch (e) {
       log(e.toString());
@@ -46,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
     category = name;
     setState(() {});
     if (name == "All") {
-      _products = _products;
+      _productDub = _products;
       setState(() {});
     } else {
       _productDub = _products?.where((element) {
@@ -72,8 +71,9 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            await ProductService().fetchAllProduct();
-            await ProductService().fetchAllProductCategory();
+            _products = await ProductService().fetchAllProduct();
+            _categories = await ProductService().fetchAllProductCategory();
+            _categories = [Category(id: '1234', name: 'All'), ...?_categories];
             _productDub = _products;
             setState(() {});
           },
@@ -155,20 +155,13 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     SizedBox(
                         height: 180,
-                        child: FutureBuilder<List<Product>>(
-                            future: ProductService().fetchAllProduct(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: Text("No Data Found"));
-                              }
-                              List<Product> products =
-                                  snapshot.data as List<Product>;
-                              return ListView.builder(
+                        child: _productDub == null
+                            ? const CircularProgressIndicator.adaptive()
+                            : ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: products.length,
+                                itemCount: _productDub?.length ?? 0,
                                 itemBuilder: (context, index) {
-                                  Product product = products[index];
+                                  Product product = _productDub![index];
                                   return SizedBox(
                                     width: 120.0,
                                     child: InkWell(
@@ -187,7 +180,7 @@ class _HomeViewState extends State<HomeView> {
                                             child: Container(
                                               height: 140,
                                               width: 100,
-                                              decoration: snapshot.data != null
+                                              decoration: _productDub != null
                                                   ? BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -225,8 +218,7 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                   );
                                 },
-                              );
-                            })),
+                              )),
                   ],
                 ),
               ),
@@ -263,117 +255,99 @@ class _HomeViewState extends State<HomeView> {
                   ),
 
                   // Products dummy data
-                  SizedBox(
-                      height: 180,
-                      child: FutureBuilder<List<Product>>(
-                          future: ProductService().fetchAllProduct(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(child: Text("No Data Found"));
-                            }
-                            List<Product> products =
-                                snapshot.data as List<Product>;
-                            return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: products.length,
-                              itemBuilder: (context, index) {
-                                Product product = products[index];
-                                return SizedBox(
-                                  width: 120.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (_) {
-                                        return ProductDetails(
-                                          product: product,
-                                        );
-                                      }));
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Card(
-                                          color: Colors.white,
-                                          child: Container(
-                                            height: 140,
-                                            width: 100,
-                                            decoration: snapshot.data != null
-                                                ? BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          product.image ?? ""),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  )
-                                                : null,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 6),
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: const Color.fromARGB(
-                                                  255, 228, 228, 228)),
-                                          child: Text(
-                                            product.name ?? "",
-                                            textAlign: TextAlign.center,
-                                            softWrap: true,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          })),
-                  // Consumer<ServiceState>(builder: (context, value, _) {
-                  //   return Align(
-                  //     alignment: Alignment.topLeft,
-                  //     child: Wrap(
-                  //       alignment: WrapAlignment.start,
-                  //       spacing: 15,
-                  //       children: [
-                  //         if (value.loading)
-                  //           const Center(
-                  //             child: CircularProgressIndicator(),
-                  //           ),
-                  //         if (value.services != null)
-                  //           for (var i = 0; i < value.services!.length; i++)
-                  //             ServiceCard(service: value.services![i])
-                  //       ],
-                  //     ),
-                  //   );
-                  // })
+                  // SizedBox(
+                  //     height: 180,
+                  //     child: FutureBuilder<List<Product>>(
+                  //         future: ProductService().fetchAllProduct(),
+                  //         builder: (context, snapshot) {
+                  //           if (!snapshot.hasData) {
+                  //             return const Center(child: Text("No Data Found"));
+                  //           }
+                  //           List<Product> products =
+                  //               snapshot.data as List<Product>;
+                  //           return ListView.builder(
+                  //             scrollDirection: Axis.horizontal,
+                  //             itemCount: products.length,
+                  //             itemBuilder: (context, index) {
+                  //               Product product = products[index];
+                  //               return SizedBox(
+                  //                 width: 120.0,
+                  //                 child: InkWell(
+                  //                   onTap: () {
+                  //                     Navigator.push(context,
+                  //                         MaterialPageRoute(builder: (_) {
+                  //                       return ProductDetails(
+                  //                         product: product,
+                  //                       );
+                  //                     }));
+                  //                   },
+                  //                   child: Column(
+                  //                     children: [
+                  //                       Card(
+                  //                         color: Colors.white,
+                  //                         child: Container(
+                  //                           height: 140,
+                  //                           width: 100,
+                  //                           decoration: snapshot.data != null
+                  //                               ? BoxDecoration(
+                  //                                   borderRadius:
+                  //                                       BorderRadius.circular(
+                  //                                           5.0),
+                  //                                   image: DecorationImage(
+                  //                                     image: NetworkImage(
+                  //                                         product.image ?? ""),
+                  //                                     fit: BoxFit.cover,
+                  //                                   ),
+                  //                                 )
+                  //                               : null,
+                  //                         ),
+                  //                       ),
+                  //                       Container(
+                  //                         width: double.infinity,
+                  //                         margin: const EdgeInsets.symmetric(
+                  //                             horizontal: 6),
+                  //                         padding: const EdgeInsets.all(4),
+                  //                         decoration: BoxDecoration(
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(10),
+                  //                             color: const Color.fromARGB(
+                  //                                 255, 228, 228, 228)),
+                  //                         child: Text(
+                  //                           product.name ?? "",
+                  //                           textAlign: TextAlign.center,
+                  //                           softWrap: true,
+                  //                           maxLines: 1,
+                  //                           overflow: TextOverflow.ellipsis,
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             },
+                  //           );
+                  //         })),
                 ],
               ),
             )),
           ]),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: "Favorite"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.book_online), label: "Booking"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.verified_user), label: "Profile"),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: "Home",
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.favorite), label: "Favorite"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.book_online), label: "Booking"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.verified_user), label: "Profile"),
+      //   ],
+      // ),
       drawer: const MyDrawer(),
     );
   }

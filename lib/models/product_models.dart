@@ -1,38 +1,38 @@
-// import 'dart:convert';
+import 'dart:convert';
 
-// ProductResponse productResponseFromJson(String str) =>
-//     ProductResponse.fromJson(json.decode(str));
+ProductResponse productResponseFromJson(String str) =>
+    ProductResponse.fromJson(json.decode(str));
 
-// String comicResponseToJson(ProductResponse data) => json.encode(data.toJson());
+String comicResponseToJson(ProductResponse data) => json.encode(data.toJson());
 
-// class ProductResponse {
-//   ProductResponse({
-//     this.products,
-//     this.message,
-//     this.status,
-//   });
+class ProductResponse {
+  ProductResponse({
+    this.products,
+    this.message,
+    this.status,
+  });
 
-//   List<Product>? products;
-//   String? message;
-//   int? status;
+  List<Product>? products;
+  String? message;
+  int? status;
 
-//   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
-//       ProductResponse(
-//         products: json["data"] != null
-//             ? List<Product>.from(json["data"].map((x) => Product.fromJson(x)))
-//             : null,
-//         message: json["message"],
-//         status: json["status"],
-//       );
+  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
+      ProductResponse(
+        products: json["data"] != null
+            ? List<Product>.from(json["data"].map((x) => Product.fromJson(x)))
+            : null,
+        message: json["message"],
+        status: json["status"],
+      );
 
-//   Map<String, dynamic> toJson() => {
-//         "data": products != null
-//             ? List<dynamic>.from(products!.map((x) => x.toJson()))
-//             : null,
-//         "message": message,
-//         "status": status,
-//       };
-// }
+  Map<String, dynamic> toJson() => {
+        "data": products != null
+            ? List<dynamic>.from(products!.map((x) => x.toJson()))
+            : null,
+        "message": message,
+        "status": status,
+      };
+}
 
 class Product {
   Product({
@@ -51,7 +51,7 @@ class Product {
   String? category;
   String? description;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Product.fromJson(json) => Product(
         id: json["_id"],
         name: json["name"],
         price: json["price"],

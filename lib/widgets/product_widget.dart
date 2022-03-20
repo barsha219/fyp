@@ -24,7 +24,7 @@ class ProductWidget extends StatelessWidget {
           Card(
             color: Colors.white,
             child: Container(
-              height: 160,
+              height: 150,
               width: 100,
               decoration: List<Product> != null
                   ? BoxDecoration(

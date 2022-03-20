@@ -5,22 +5,23 @@
 // import 'package:beautystore/app/meta/screens/home/views/bookings/bookings.dart';
 // import 'package:beautystore/app/meta/screens/home/views/profile/profile.dart';
 // import 'package:beautystore/app/meta/screens/home/views/services/services.dart';
+import 'package:beauty_store/meta/screens/Bookmark/bookmark.dart';
 import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
-class ButtonNavBar extends StatefulWidget {
-  const ButtonNavBar({Key? key}) : super(key: key);
+class Layout extends StatefulWidget {
+  const Layout({Key? key}) : super(key: key);
 
   @override
-  State<ButtonNavBar> createState() => _ButtonNavBarState();
+  State<Layout> createState() => _LayoutState();
 }
 
-class _ButtonNavBarState extends State<ButtonNavBar> {
+class _LayoutState extends State<Layout> {
   final List<Widget> _screens = [
-    //   // const ServicesView(),
-    //   // const FavoriteView(),
-    //   // const BookingView(),
-    //   // const ProfileView(),
+    const HomeView(),
+    const BookMarkView(),
+    Container(),
+    Container(),
   ];
 
   int _index = 0;
@@ -38,12 +39,12 @@ class _ButtonNavBarState extends State<ButtonNavBar> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "HomeView()",
+            label: "Home",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: "Favorite"),
+              icon: Icon(Icons.favorite), label: "Favourite"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.book_online), label: "Booking"),
+              icon: Icon(Icons.book_online), label: "Bookings"),
           BottomNavigationBarItem(
               icon: Icon(Icons.verified_user), label: "Profile"),
         ],

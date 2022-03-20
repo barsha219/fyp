@@ -1,5 +1,6 @@
 import 'package:beauty_store/models/product_models.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class ProductDetails extends StatefulWidget {
   final Product product;
@@ -21,7 +22,22 @@ class _ProductDetailsState extends State<ProductDetails> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+          IconButton(
+              onPressed: () async {
+                var box = Hive.box("product").get(widget.product.id);
+                if (box == null) {
+                  // for storing products
+                  await Hive.box("product")
+                      .put(widget.product.id, widget.product.toJson());
+                } else {
+                  // deleting the bookmarks
+                  await Hive.box("product").delete(widget.product.id);
+                }
+                setState(() {});
+              },
+              icon: Hive.box("product").containsKey(widget.product.id)
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border)),
         ],
       ),
       body: SafeArea(

@@ -32,7 +32,13 @@ class _SeeMoreState extends State<SeeMore> {
         title: const Text("All Products"),
         backgroundColor: const Color(0xffa6baef),
       ),
-      body: GridView.builder(
+      body:
+          // _products == null || _products.isEmpty
+          //     ? SizedBox(x
+          //         height: MediaQuery.of(context).size.height / 2,
+          //         child: const Center(child: CircularProgressIndicator()),
+          //       )
+          GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 0),
         itemCount: _products?.length ?? 0,

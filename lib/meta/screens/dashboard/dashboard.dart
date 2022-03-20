@@ -24,7 +24,7 @@ class _DashBoardViewState extends State<DashBoardView> {
               AppConfig.appName,
               style: Theme.of(context).textTheme.headline4,
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             PrimaryButton(
               title: "Login",
               mini: true,
@@ -35,14 +35,14 @@ class _DashBoardViewState extends State<DashBoardView> {
                 ),
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             PrimaryButton(
               title: "Signup",
               mini: true,
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SignUpView(),
+                  builder: (context) => const SignUpView(),
                 ),
               ),
             )
