@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(builder: () {
       return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: const Layout(),
+          home: const SplashView(),
           theme: ThemeData(
               fontFamily: GoogleFonts.ruluko().fontFamily,
               primaryColor: const Color(0xffa6baef),

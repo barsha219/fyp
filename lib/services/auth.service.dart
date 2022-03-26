@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:beauty_store/models/user_models.dart';
+import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
@@ -31,7 +32,7 @@ class AuthService {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const HomeView(),
+              builder: (context) => const Layout(),
             ));
       } else {
         throw "Failed to Login";
@@ -60,7 +61,7 @@ class AuthService {
       if (response.statusCode == 200) {
         user = UserResponse.fromMap(response.data).user;
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomeView()));
+            context, MaterialPageRoute(builder: (context) => const Layout()));
       } else {
         throw "Failed to Signup";
       }

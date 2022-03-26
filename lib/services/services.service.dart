@@ -11,7 +11,6 @@ class ServicesItems {
   Future<List<Services>> fetchAllServices() async {
     try {
       var response = (await _dio.get("${AppConfig.baseUrl}api/services/"));
-      //      var response = (await _dio.get("${AppConfig.baseUrl}api/product/"));
 
       log(response.data.toString());
       return List.from(

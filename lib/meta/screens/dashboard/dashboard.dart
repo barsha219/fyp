@@ -31,7 +31,7 @@ class _DashBoardViewState extends State<DashBoardView> {
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginView(),
+                  builder: (context) => const LoginView(),
                 ),
               ),
             ),

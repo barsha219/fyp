@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:beauty_store/meta/screens/home/seeMoreProdu.dart';
 import 'package:beauty_store/meta/screens/product.details.dart';
+import 'package:beauty_store/meta/screens/service_view/service_view.dart';
 import 'package:beauty_store/models/category_models.dart';
 import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/models/services.models.dart';
@@ -281,12 +282,12 @@ class _HomeViewState extends State<HomeView> {
                                   width: 120.0,
                                   child: InkWell(
                                     onTap: () {
-                                      // Navigator.push(context,
-                                      //     MaterialPageRoute(builder: (_) {
-                                      //   return ProductDetails(
-                                      //     service: service,
-                                      //   );
-                                      // }));
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (_) {
+                                        return ServiceView(
+                                          service: service,
+                                        );
+                                      }));
                                     },
                                     child: Column(
                                       children: [

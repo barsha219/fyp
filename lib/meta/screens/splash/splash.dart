@@ -16,7 +16,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Future.delayed(
-        const Duration(seconds: 5),
+        const Duration(seconds: 2),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
