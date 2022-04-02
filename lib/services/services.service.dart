@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:beauty_store/config/app_config.dart';
 import 'package:beauty_store/models/services.models.dart';
 import 'package:dio/dio.dart';
@@ -18,6 +17,18 @@ class ServicesItems {
     } catch (error) {
       log(error.toString());
       throw "Error Fetching Services";
+    }
+  }
+
+  Future<void> deleteBooking(String id) async {
+    try {
+      final response = await _dio
+          .delete(AppConfig.baseUrl + "api/bookings/delete", queryParameters: {
+        'id': id,
+      });
+      log(response.data.toString());
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -63,4 +74,5 @@ class ServicesItems {
   //     throw "Error Deleting Service";
   //   }
   // }
+
 }

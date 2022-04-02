@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:beauty_store/meta/screens/home/seeMoreProdu.dart';
 import 'package:beauty_store/meta/screens/product.details.dart';
+import 'package:beauty_store/meta/screens/service_view/seeMoreServices.dart';
 import 'package:beauty_store/meta/screens/service_view/service_view.dart';
 import 'package:beauty_store/models/category_models.dart';
 import 'package:beauty_store/models/product_models.dart';
@@ -252,7 +253,11 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         const Spacer(),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SeeMoreServices(),
+                                )),
                             child: const Text(
                               "see more",
                               style: TextStyle(color: Colors.black),

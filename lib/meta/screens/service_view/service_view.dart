@@ -18,7 +18,19 @@ class ServiceView extends StatefulWidget {
 }
 
 class _ServiceViewState extends State<ServiceView> {
-  final data = [
+  List timeslot = [
+    '10am',
+    '11am',
+    '12pm',
+    '1pm',
+    '2pm',
+    '3pm',
+    '4pm',
+    '5pm',
+    '6pm'
+  ];
+
+  final List<String> Copytimeslot = [
     '10am',
     '11am',
     '12pm',
@@ -36,6 +48,7 @@ class _ServiceViewState extends State<ServiceView> {
   @override
   void initState() {
     super.initState();
+
     init();
   }
 
@@ -48,14 +61,21 @@ class _ServiceViewState extends State<ServiceView> {
     setState(() => loading = true);
     final response = await BookingService()
         .fetchAllServiceOfThatDate(widget.service.id, date ?? todayDate);
-    for (var res in response) {
-      if (data.contains(res.bookingTime)) {
-        data.remove(res.bookingTime);
-        setState(() {});
-      } else {
-        log('sab thik xa');
+    log("uta bata timeslot k k ako xa... " + response.toString());
+    log("seletced date k xa..? " + todayDate.toString());
+    if (response.isNotEmpty) {
+      for (var res in response) {
+        if (timeslot.contains(res.bookingTime)) {
+          timeslot.remove(res.bookingTime);
+          setState(() {});
+        } else {
+          setState(() => timeslot = Copytimeslot!);
+        }
       }
+    } else {
+      setState(() => timeslot = Copytimeslot!);
     }
+    log('date k k xa actual... ' + timeslot.toString());
     setState(() => loading = false);
   }
 
@@ -63,15 +83,23 @@ class _ServiceViewState extends State<ServiceView> {
   Widget build(BuildContext context) {
     log(AuthService.instance.user!.id.toString());
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white70),
+        elevation: 0,
+        title: Text(widget.service.name ?? "",
+            style: const TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Image.network(widget.service.image),
+            SizedBox(height: 300, child: Image.network(widget.service.image)),
             const SizedBox(height: 20),
             Text(widget.service.name,
                 style: Theme.of(context).textTheme.headline6),
+            const SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: loading
@@ -82,14 +110,14 @@ class _ServiceViewState extends State<ServiceView> {
                   : Wrap(
                       spacing: 12,
                       children: List.generate(
-                        data.length,
+                        timeslot.length,
                         (index) => ActionChip(
-                            backgroundColor: data[index] == time
+                            backgroundColor: timeslot[index] == time
                                 ? Colors.amber
                                 : Colors.white,
-                            label: Text(data[index]),
+                            label: Text(timeslot[index]),
                             onPressed: () {
-                              setState(() => time = data[index]);
+                              setState(() => time = timeslot[index]);
                             }),
                       ),
                     ),
@@ -103,6 +131,10 @@ class _ServiceViewState extends State<ServiceView> {
                     lastDate:
                         DateTime(DateTime.now().year, DateTime.now().month + 1),
                   ).then((value) async {
+                    log(Copytimeslot.toString());
+                    setState(() {
+                      timeslot = Copytimeslot!;
+                    });
                     final mdate = "${value!.year}/${value.month}/${value.day}";
                     date = mdate;
                     await init();
@@ -110,6 +142,9 @@ class _ServiceViewState extends State<ServiceView> {
                   });
                 },
                 child: Text(date ?? 'Selecte Date')),
+            SizedBox(
+              height: 30,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: PrimaryButton(
@@ -128,7 +163,8 @@ class _ServiceViewState extends State<ServiceView> {
                     "bookingTime": time,
                     "contactNumber": AuthService.instance.user?.phoneNumber,
                   });
-                  setState(() => data.remove(time));
+                  setState(() => timeslot.remove(time));
+                  setState(() => date = null);
                   setState(() {
                     loading = false;
                   });
