@@ -1,4 +1,5 @@
 import 'package:beauty_store/meta/screens/dashboard/dashboard.dart';
+import 'package:beauty_store/services/auth.service.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -18,8 +19,13 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text("Logout"),
-            onTap: () => Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const DashBoardView())),
+            onTap: () {
+              AuthService.instance.logout();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashBoardView()));
+            },
           ),
         ],
       ),

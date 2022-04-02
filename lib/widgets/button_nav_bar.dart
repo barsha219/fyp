@@ -6,6 +6,7 @@
 // import 'package:beautystore/app/meta/screens/home/views/profile/profile.dart';
 // import 'package:beautystore/app/meta/screens/home/views/services/services.dart';
 import 'package:beauty_store/meta/screens/Bookmark/bookmark.dart';
+import 'package:beauty_store/meta/screens/booking/bookings.dart';
 import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _LayoutState extends State<Layout> {
   final List<Widget> _screens = [
     const HomeView(),
     const BookMarkView(),
-    Container(),
+    const Booking(),
     Container(),
   ];
 

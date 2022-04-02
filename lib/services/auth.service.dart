@@ -69,4 +69,8 @@ class AuthService {
       throw error.response?.data["message"] ?? "Failed to Singup";
     }
   }
+
+  logout() {
+    user = User();
+  }
 }
