@@ -69,11 +69,11 @@ class _ServiceViewState extends State<ServiceView> {
           timeslot.remove(res.bookingTime);
           setState(() {});
         } else {
-          setState(() => timeslot = Copytimeslot!);
+          setState(() => timeslot = Copytimeslot);
         }
       }
     } else {
-      setState(() => timeslot = Copytimeslot!);
+      setState(() => timeslot = Copytimeslot);
     }
     log('date k k xa actual... ' + timeslot.toString());
     setState(() => loading = false);
@@ -133,7 +133,7 @@ class _ServiceViewState extends State<ServiceView> {
                   ).then((value) async {
                     log(Copytimeslot.toString());
                     setState(() {
-                      timeslot = Copytimeslot!;
+                      timeslot = Copytimeslot;
                     });
                     final mdate = "${value!.year}/${value.month}/${value.day}";
                     date = mdate;
@@ -149,6 +149,7 @@ class _ServiceViewState extends State<ServiceView> {
               padding: const EdgeInsets.all(8.0),
               child: PrimaryButton(
                 title: 'Book',
+                disabled: date != null || time != null,
                 onTap: () async {
                   setState(() {
                     loading = true;
