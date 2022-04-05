@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 
 class BookingService {
   final Dio _dio = Dio();
+
   addBookings(BuildContext context, Map data) async {
     try {
       final response =
           await _dio.post(AppConfig.baseUrl + "api/bookings/add", data: data);
       log(response.data.toString());
-      if (response.statusCode == 200) {
-        // navigate to booking
-      }
+      if (response.statusCode == 200) {}
     } catch (e) {
       log(e.toString());
     }
@@ -43,5 +42,22 @@ class BookingService {
     });
     return List.from(
         response.data['bookings'].map((data) => Bookings.fromJson(data)));
+  }
+
+//  fetch all bookings
+  Future<List<Bookings>> fetchAllBooking() async {
+    try {
+      var response =
+          (await _dio.get("${AppConfig.baseUrl}api/bookings/get/all"));
+      // if (response.statusCode == 200) {
+      return List.from(response.data["bookings"]
+          .map((booking) => Bookings.fromJson(booking)));
+      // } else {
+      //   throw "Error Fetching Products";
+      // }
+    } catch (error) {
+      log(error.toString());
+      throw "Error Fetching All Bookings";
+    }
   }
 }

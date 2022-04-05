@@ -1,3 +1,4 @@
+import 'package:beauty_store/meta/screens/Admin%20View/admin_view.dart';
 import 'package:beauty_store/meta/screens/dashboard/dashboard.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,16 @@ class MyDrawer extends StatelessWidget {
             ),
             child: Center(child: Column()),
           ),
+          if (auth.user?.isAdmin ?? false)
+            ListTile(
+              title: const Text("Admin"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AdiminView()));
+              },
+            ),
           ListTile(
             title: const Text("Logout"),
             onTap: () {

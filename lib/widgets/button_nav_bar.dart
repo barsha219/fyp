@@ -50,10 +50,7 @@ class _LayoutState extends State<Layout> {
               icon: Icon(Icons.verified_user), label: "Profile"),
         ],
       ),
-      body: IndexedStack(
-        children: _screens,
-        index: _index,
-      ),
+      body: _screens[_index],
     );
   }
 }

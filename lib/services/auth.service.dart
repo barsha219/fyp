@@ -74,3 +74,5 @@ class AuthService {
     user = User();
   }
 }
+
+final auth = AuthService();

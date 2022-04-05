@@ -1,7 +1,4 @@
 import 'dart:developer';
-
-import 'package:beauty_store/meta/screens/booking/bookings.dart';
-import 'package:beauty_store/models/bookings.dart';
 import 'package:beauty_store/models/services.models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/booking.service.dart';
@@ -60,9 +57,9 @@ class _ServiceViewState extends State<ServiceView> {
     setState(() => date = todayDate);
     setState(() => loading = true);
     final response = await BookingService()
-        .fetchAllServiceOfThatDate(widget.service.id, date ?? todayDate);
-    log("uta bata timeslot k k ako xa... " + response.toString());
-    log("seletced date k xa..? " + todayDate.toString());
+        .fetchAllServiceOfThatDate(widget.service.id ?? "", date ?? todayDate);
+    // log("uta bata timeslot k k ako xa... " + response.toString());
+    // log("seletced date k xa..? " + todayDate.toString());
     if (response.isNotEmpty) {
       for (var res in response) {
         if (timeslot.contains(res.bookingTime)) {
@@ -75,7 +72,7 @@ class _ServiceViewState extends State<ServiceView> {
     } else {
       setState(() => timeslot = Copytimeslot);
     }
-    log('date k k xa actual... ' + timeslot.toString());
+    // log('date k k xa actual... ' + timeslot.toString());
     setState(() => loading = false);
   }
 
@@ -93,9 +90,10 @@ class _ServiceViewState extends State<ServiceView> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            SizedBox(height: 300, child: Image.network(widget.service.image)),
+            SizedBox(
+                height: 300, child: Image.network(widget.service.image ?? "")),
             const SizedBox(height: 20),
-            Text(widget.service.name,
+            Text(widget.service.name ?? "",
                 style: Theme.of(context).textTheme.headline6),
             const SizedBox(
               height: 20,
@@ -131,7 +129,7 @@ class _ServiceViewState extends State<ServiceView> {
                     lastDate:
                         DateTime(DateTime.now().year, DateTime.now().month + 1),
                   ).then((value) async {
-                    log(Copytimeslot.toString());
+                    // log(Copytimeslot.toString());
                     setState(() {
                       timeslot = Copytimeslot;
                     });
@@ -142,20 +140,20 @@ class _ServiceViewState extends State<ServiceView> {
                   });
                 },
                 child: Text(date ?? 'Selecte Date')),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: PrimaryButton(
                 title: 'Book',
-                disabled: date != null || time != null,
+                disabled: date == null || time == null,
                 onTap: () async {
                   setState(() {
                     loading = true;
                   });
-                  log(widget.service.id);
-                  log(AuthService.instance.user!.toMap().toString());
+                  // log(widget.service.id);
+                  // log(AuthService.instance.user!.toMap().toString());
                   await BookingService().addBookings(context, {
                     "serviceId": widget.service.id,
                     "name": AuthService.instance.user?.name,

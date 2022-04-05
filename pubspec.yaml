@@ -41,8 +41,11 @@ dependencies:
   snapshot: ^0.2.5  # A library that can be used to implement data classes
   cached_network_image: ^3.2.0  # A flutter library to show images from the internet and keep them in the cache directory.
   hive: ^2.0.6   # Hive is a dart package used in Flutter applications for storing data locally and manipulating the data on a targeted device.
-  hive_flutter: ^1.1.0
-  timeago: ^3.2.2
+  hive_flutter: ^1.1.0  # Hive is a lightweight and blazing fast key-value database written in pure Dart
+  timeago: ^3.2.2  #  timeago is a dart library that converts a date into a humanized text. 
+  image_picker: ^0.8.4+11   # A Flutter plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
+  file_picker: ^4.5.1   # A package that allows you to use the native file explorer to pick single or multiple files, with extensions filtering support.
+
 
 
 

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:beauty_store/services/services.service.dart';
-
 ServiceResponse serviceResponseFromJson(String str) =>
     ServiceResponse.fromJson(json.decode(str));
 
@@ -10,14 +8,14 @@ String serviceResponseToJson(ServiceResponse data) =>
 
 class ServiceResponse {
   ServiceResponse({
-    required this.message,
-    required this.services,
-    required this.status,
+    this.message,
+    this.services,
+    this.status,
   });
 
-  String message;
-  List<Services> services;
-  int status;
+  String? message;
+  List<Services>? services;
+  int? status;
 
   factory ServiceResponse.fromJson(Map<String, dynamic> json) =>
       ServiceResponse(
@@ -29,25 +27,25 @@ class ServiceResponse {
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "data": List<dynamic>.from(services.map((x) => x.toJson())),
+        "data": List<dynamic>.from(services!.map((x) => x.toJson())),
         "status": status,
       };
 }
 
 class Services {
   Services({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.name,
+    this.image,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  String id;
-  String name;
-  String image;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String? id;
+  String? name;
+  String? image;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory Services.fromJson(json) => Services(
         id: json["_id"],
@@ -61,7 +59,7 @@ class Services {
         "_id": id,
         "name": name,
         "image": image,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
       };
 }

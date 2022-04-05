@@ -308,7 +308,7 @@ class _HomeViewState extends State<HomeView> {
                                                             5.0),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          service.image),
+                                                          service.image ?? ""),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   )
@@ -326,7 +326,7 @@ class _HomeViewState extends State<HomeView> {
                                               color: const Color.fromARGB(
                                                   255, 228, 228, 228)),
                                           child: Text(
-                                            service.name,
+                                            service.name ?? "",
                                             textAlign: TextAlign.center,
                                             softWrap: true,
                                             maxLines: 1,

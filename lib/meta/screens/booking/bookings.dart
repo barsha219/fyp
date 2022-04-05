@@ -1,10 +1,7 @@
 import 'dart:developer';
-
-import 'package:beauty_store/meta/screens/Bookmark/bookmark.dart';
 import 'package:beauty_store/models/bookings.dart';
 import 'package:beauty_store/services/booking.service.dart';
 import 'package:beauty_store/services/services.service.dart';
-import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -56,8 +53,8 @@ class _BookingState extends State<Booking> {
                     'No Bookings found',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  ElevatedButton(
-                      onPressed: () => inis(), child: const Text('Refesh')),
+                  // ElevatedButton(
+                  //     onPressed: () => inis(), child: const Text('Refesh')),
                 ],
               ))
             : ListView.builder(
