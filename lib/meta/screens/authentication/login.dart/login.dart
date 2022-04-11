@@ -15,6 +15,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool loading = false;
+  bool value = false;
 
   final TextEditingController _email = TextEditingController();
 
@@ -79,6 +80,7 @@ class _LoginViewState extends State<LoginView> {
                   },
                 ),
               ),
+          
               const SizedBox(height: 20),
               FlatButton(
                   onPressed: () {

@@ -1,6 +1,7 @@
 import 'package:beauty_store/meta/screens/Admin%20View/admin_view.dart';
 import 'package:beauty_store/meta/screens/dashboard/dashboard.dart';
 import 'package:beauty_store/services/auth.service.dart';
+import 'package:beauty_store/user_Profile/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -28,6 +29,14 @@ class MyDrawer extends StatelessWidget {
                         builder: (context) => const AdiminView()));
               },
             ),
+          ListTile(
+            title: const Text("Profile"),
+            onTap: () {
+              AuthService.instance.logout();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const ProfileView()));
+            },
+          ),
           ListTile(
             title: const Text("Logout"),
             onTap: () {

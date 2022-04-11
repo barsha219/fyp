@@ -77,7 +77,8 @@ class _AddServiceState extends State<AddService> {
                                     if (file != null) Image.file(file!),
                                     ElevatedButton(
                                         onPressed: () async {
-                                          if (controller.text.trim().isEmpty) {
+                                          if (controller.text.trim().isEmpty ||
+                                              file == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Service name required");
                                           } else {

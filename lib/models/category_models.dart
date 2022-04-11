@@ -20,7 +20,7 @@ class Category {
   DateTime? updatedAt;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-      id: json["id"],
+      id: json["_id"],
       name: json["name"],
       createdAt:
           json["createdAt"] != null ? DateTime.parse(json["createdAt"]) : null,

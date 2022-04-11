@@ -85,6 +85,7 @@ class _SignUpViewState extends State<SignUpView> {
                       Fluttertoast.showToast(msg: "Password cannot be empty.");
                     } else {
                       try {
+                        setState(() => loading = true);
                         await AuthService().signup(context,
                             name: _name.text,
                             email: _email.text,
@@ -92,7 +93,7 @@ class _SignUpViewState extends State<SignUpView> {
                             phone: _phone.text,
                             address: _address.text);
                         setState(() {
-                          loading = true;
+                          loading = false;
                         });
                       } catch (e) {
                         setState(() {

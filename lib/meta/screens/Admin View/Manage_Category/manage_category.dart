@@ -23,8 +23,11 @@ class _ManageCategoryState extends State<ManageCategory> {
   List<Category>? categories;
 
   init() async {
+    setState(() {
+      isloading = true;
+    });
     categories = await ProductService().fetchAllProductCategory();
-    setState(() {});
+    setState(() => isloading = false);
   }
 
   final TextEditingController controller = TextEditingController();
@@ -74,12 +77,7 @@ class _ManageCategoryState extends State<ManageCategory> {
                                           });
                                           await ProductService()
                                               .addCategory(controller.text);
-                                          setState(() => categories = [
-                                                ...?categories,
-                                                Category(
-                                                  name: controller.text,
-                                                )
-                                              ]);
+                                          await init();
                                           controller.clear();
                                           Navigator.pop(context);
                                           msetState(() {
@@ -111,39 +109,44 @@ class _ManageCategoryState extends State<ManageCategory> {
               )),
         ],
       ),
-      body: ListView.builder(
-        itemCount: categories?.length ?? 0,
-        itemBuilder: (context, index) => ListTile(
-          title: Text(categories?[index].name ?? ""),
-          trailing: IconButton(
-              onPressed: () async {
-                setState(() {
-                  isloading = true;
-                });
-                try {
-                  await ProductService()
-                      .deleteCategory(categories?[index].id ?? "");
-                  categories!.remove(categories?[index]);
-                  setState(() {});
-                  setState(() {
-                    isloading = false;
-                  });
-                } catch (e) {
-                  log(e.toString());
-                }
-              },
-              icon: isloading
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Icon(Icons.delete)),
-        ),
-      ),
+      body: isloading
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: Colors.white,
+            ))
+          : ListView.builder(
+              itemCount: categories?.length ?? 0,
+              itemBuilder: (context, index) => ListTile(
+                title: Text(categories?[index].name ?? ""),
+                trailing: IconButton(
+                    onPressed: () async {
+                      setState(() {
+                        isloading = true;
+                      });
+                      try {
+                        await ProductService()
+                            .deleteCategory(categories?[index].id ?? "");
+                        categories!.remove(categories?[index]);
+                        setState(() {});
+                        setState(() {
+                          isloading = false;
+                        });
+                      } catch (e) {
+                        log(e.toString());
+                      }
+                    },
+                    icon: isloading
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Icon(Icons.delete)),
+              ),
+            ),
     );
   }
 }

@@ -61,6 +61,7 @@ class ProductService {
         throw "Failed to Delete  Product";
       }
     } catch (error) {
+      log(error.toString());
       throw "Failed to Delete  Product";
     }
   }
@@ -94,16 +95,16 @@ class ProductService {
   //delete category
   Future<bool> deleteCategory(String id) async {
     try {
-      var response = await _dio
-          .delete("${AppConfig.baseUrl}api/category/delete", queryParameters: {
-        "id": id,
-      });
+      var url =
+          "https://beautystore-app.herokuapp.com/api/category/delete?id=$id";
+      var response = await _dio.delete(url, queryParameters: {"id": id});
       if (response.statusCode == 200) {
         return true;
       } else {
         throw "Failed to Delete  Category";
       }
-    } catch (error) {
+    } on DioError catch (error) {
+      log((error.response!.data).toString());
       throw "Failed to Deleting Category";
     }
   }
