@@ -164,7 +164,8 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(
                         height: 180,
                         child: _productDub == null
-                            ? const CircularProgressIndicator.adaptive()
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive())
                             : ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _productDub?.length ?? 0,
