@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 class UserResponse {
   UserResponse({
     this.message,
@@ -63,4 +67,24 @@ class User {
         "_id": id,
         "isAdmin": isAdmin ?? false,
       };
+
+  Widget get profilePic {
+    // if (imageUrl == null)
+    {
+      return CircleAvatar(
+        radius: 40,
+        backgroundColor: Colors.orange,
+        child: Text(name![0].toUpperCase(),
+            style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+              fontSize: 34,
+              fontWeight: FontWeight.bold,
+            ))),
+      );
+      // } else {
+      //   return CircleAvatar(
+      //     backgroundImage: NetworkImage(imageUrl!),
+      //   );
+    }
+  }
 }

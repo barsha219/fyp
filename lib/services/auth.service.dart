@@ -73,6 +73,26 @@ class AuthService {
   logout() {
     user = User();
   }
+
+  updateUserProfile(Map<String, dynamic> data) async {
+    try {
+      final response = await Dio().post(
+        'https://beautystore-app.herokuapp.com/api/auth/update',
+        data: {
+          'userId': user?.id,
+          'name': data['name'],
+          'phoneNumber': data['phoneNumber'],
+          'address': data['address'],
+        },
+      );
+      if (response.statusCode == 200) {
+        user = User.fromMap(response.data['user']);
+        log(response.data.toString());
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
 
 final auth = AuthService();

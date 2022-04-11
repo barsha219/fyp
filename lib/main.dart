@@ -1,11 +1,8 @@
 import 'package:beauty_store/config/app_config.dart';
-import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:beauty_store/meta/screens/splash/splash.dart';
-import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {

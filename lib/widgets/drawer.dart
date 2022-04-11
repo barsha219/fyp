@@ -17,7 +17,13 @@ class MyDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-            child: Center(child: Column()),
+            child: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                auth.user?.profilePic ?? const CircleAvatar(),
+              ],
+            )),
           ),
           if (auth.user?.isAdmin ?? false)
             ListTile(
@@ -33,7 +39,7 @@ class MyDrawer extends StatelessWidget {
             title: const Text("Profile"),
             onTap: () {
               AuthService.instance.logout();
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const ProfileView()));
             },
           ),
