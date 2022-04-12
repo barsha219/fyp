@@ -1,5 +1,3 @@
-// fetching comics
-import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/meta/screens/service_view/service_view.dart';
 import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/models/services.models.dart';

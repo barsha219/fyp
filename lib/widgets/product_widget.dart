@@ -1,8 +1,7 @@
 // fetching comics
 import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/models/product_models.dart';
-import 'package:beauty_store/widgets/cacheImageView.dart';
-import 'package:snapshot/snapshot.dart';
+
 import 'package:flutter/material.dart';
 
 class ProductWidget extends StatelessWidget {

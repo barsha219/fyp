@@ -45,7 +45,8 @@ class _GetStartedViewState extends State<GetStartedView> {
                   title: "Get Started",
                   onTap: () => Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => DashBoardView()),
+                    MaterialPageRoute(
+                        builder: (context) => const DashBoardView()),
                   ),
                 ),
               ),

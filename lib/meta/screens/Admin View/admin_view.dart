@@ -1,6 +1,7 @@
 import 'package:beauty_store/meta/screens/Admin%20View/Add_Product/add_product.dart';
 import 'package:beauty_store/meta/screens/Admin%20View/Add_Services/add_service.dart';
 import 'package:beauty_store/meta/screens/Admin%20View/Booking/booking_view.dart';
+import 'package:beauty_store/meta/screens/Admin%20View/Manage_Blog/manage_blog.dart';
 import 'package:beauty_store/meta/screens/Admin%20View/Manage_Category/manage_category.dart';
 import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class AdiminView extends StatefulWidget {
 class _AdiminViewState extends State<AdiminView> {
   navigate(context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Layout()));
+        context, MaterialPageRoute(builder: (context) => const Layout()));
   }
 
   @override
@@ -61,6 +62,11 @@ class _AdiminViewState extends State<AdiminView> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const ViewBooking()))),
+            _cardView(
+                Icons.book,
+                "View Blogs",
+                () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const ViewBlog()))),
           ],
         ),
       ),

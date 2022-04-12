@@ -76,10 +76,13 @@ class _AddServiceState extends State<AddService> {
                                     if (file != null) Image.file(file!),
                                     ElevatedButton(
                                         onPressed: () async {
-                                          if (controller.text.trim().isEmpty ||
+                                          if (controller.text.trim().isEmpty &&
                                               file == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Service name required");
+                                          } else if (file == null) {
+                                            Fluttertoast.showToast(
+                                                msg: "Image Required");
                                           } else {
                                             msetState(() {
                                               isloading = true;
@@ -90,12 +93,7 @@ class _AddServiceState extends State<AddService> {
                                                       .addService(
                                                           name: controller.text,
                                                           imageUrl: file!);
-                                              setState(() => services = [
-                                                    ...?services,
-                                                    Services(
-                                                        name: controller.text,
-                                                        image: image)
-                                                  ]);
+                                              init();
                                               controller.clear();
                                               msetState(() => file = null);
                                               Navigator.pop(context);
@@ -129,38 +127,60 @@ class _AddServiceState extends State<AddService> {
               ))
         ],
       ),
-      body: ListView.builder(
-          itemCount: services?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              contentPadding: const EdgeInsets.all(8),
-              title: Text(services![index].name ?? ""),
-              leading: SizedBox(
-                height: 60,
-                child: Image.network(services![index].image ?? ""),
+      body: isloading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
               ),
-              trailing: IconButton(
-                  onPressed: () async {
-                    try {
-                      await ServicesItems()
-                          .deleteService(services?[index].id ?? "");
-                      services!.remove(services?[index]);
-                      setState(() {});
-                    } catch (e) {
-                      log(e.toString());
-                    }
-                  },
-                  icon: const Icon(Icons.delete)),
-            );
-          }),
+            )
+          : ListView.builder(
+              itemCount: services?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  contentPadding: const EdgeInsets.all(8),
+                  title: Text(services![index].name ?? ""),
+                  leading: SizedBox(
+                    height: 60,
+                    child: Image.network(services![index].image ?? ""),
+                  ),
+                  trailing: IconButton(
+                      onPressed: () async {
+                        setState(() {
+                          isloading = true;
+                        });
+                        try {
+                          await ServicesItems()
+                              .deleteService(services?[index].id ?? "");
+                          services!.remove(services?[index]);
+                          setState(() {});
+                          setState(() {
+                            isloading = false;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Service Added Successfully");
+                          Fluttertoast.showToast(
+                              msg: "Service Removed Successfully");
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      },
+                      icon: const Icon(Icons.delete)),
+                );
+              }),
     );
   }
 
   @override
   void init() async {
+    setState(() {
+      isloading = true;
+    });
     if (mounted) {
       services = await ServicesItems().fetchAllServices();
       setState(() {});
+      setState(() {
+        isloading = false;
+      });
     }
   }
 }

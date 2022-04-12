@@ -28,7 +28,6 @@ class _AddProductState extends State<AddProduct> {
 //  displays the product name and image and cetegory
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
   }
@@ -36,10 +35,16 @@ class _AddProductState extends State<AddProduct> {
   List<Product>? products;
 
   init() async {
+    setState(() {
+      isloading = true;
+    });
     try {
       categories = await ProductService().fetchAllProductCategory();
       products = await ProductService().fetchAllProduct();
       setState(() {});
+      setState(() {
+        isloading = false;
+      });
     } catch (e) {}
   }
 
@@ -133,7 +138,8 @@ class _AddProductState extends State<AddProduct> {
                                       onPressed: () async {
                                         if (name.text.trim().isEmpty &&
                                             price.text.isEmpty &&
-                                            description.text.trim().isEmpty) {
+                                            description.text.trim().isEmpty &&
+                                            file == null) {
                                           Fluttertoast.showToast(
                                               msg: "Name is Required");
                                         } else if (price.text.isEmpty) {
@@ -143,6 +149,9 @@ class _AddProductState extends State<AddProduct> {
                                             10) {
                                           Fluttertoast.showToast(
                                               msg: "Description Required");
+                                        } else if (file == null) {
+                                          Fluttertoast.showToast(
+                                              msg: "Image Required");
                                         } else {
                                           try {
                                             msetState(() {
@@ -156,19 +165,20 @@ class _AddProductState extends State<AddProduct> {
                                               price: price.text,
                                               file: file!,
                                             );
-                                            setState(() {
-                                              products = [
-                                                ...?products,
-                                                Product(
-                                                  name: name.text,
-                                                  category: selectedCategory,
-                                                  description: description.text,
-                                                  price: int.parse(price.text),
-                                                  image: image,
-                                                  // int var =int.parse(_section_id.text);
-                                                )
-                                              ];
-                                            });
+                                            // setState(() {
+                                            //   products = [
+                                            //     ...?products,
+                                            //     Product(
+                                            //       name: name.text,
+                                            //       category: selectedCategory,
+                                            //       description: description.text,
+                                            //       price: int.parse(price.text),
+                                            //       image: image,
+                                            //       // int var =int.parse(_section_id.text);
+                                            //     )
+                                            //   ];
+                                            // });
+                                            init();
                                             name.clear();
                                             selectedCategory = null;
                                             description.clear();
@@ -179,13 +189,16 @@ class _AddProductState extends State<AddProduct> {
                                             setState(() {
                                               isloading = false;
                                             });
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Product Added Successfully");
                                           } catch (e) {
                                             log(e.toString());
                                           }
                                         }
                                       },
                                       child: isloading
-                                          ? SizedBox(
+                                          ? const SizedBox(
                                               height: 20,
                                               width: 20,
                                               child: CircularProgressIndicator(
@@ -193,7 +206,7 @@ class _AddProductState extends State<AddProduct> {
                                                 color: Colors.white,
                                               ),
                                             )
-                                          : Text('Submit'))
+                                          : const Text('Submit'))
                                 ],
                               ),
                             ),
@@ -210,43 +223,52 @@ class _AddProductState extends State<AddProduct> {
         elevation: 0,
         // backgroundColor: Colors.amber,
       ),
-      body: ListView.builder(
-        itemCount: products?.length ?? 0,
-        itemBuilder: (context, index) => ListTile(
-            title: Text(products?[index].name ?? ''),
-            leading: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: SizedBox(
-                  height: 100, child: Image.network(products![index].image!)),
+      body: isloading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            )
+          : ListView.builder(
+              itemCount: products?.length ?? 0,
+              itemBuilder: (context, index) => ListTile(
+                  title: Text(products?[index].name ?? ''),
+                  leading: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: SizedBox(
+                        height: 100,
+                        child: Image.network(products![index].image!)),
+                  ),
+                  trailing: IconButton(
+                      onPressed: () async {
+                        setState(() {
+                          isloading = true;
+                        });
+                        try {
+                          await ProductService()
+                              .deleteProduct(products?[index].id ?? "");
+                          products!.remove(products?[index]);
+                          setState(() {});
+                          setState(() {
+                            isloading = false;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Product Removed Successfully");
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      },
+                      icon: isloading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Icon(Icons.delete))),
             ),
-            trailing: IconButton(
-                onPressed: () async {
-                  setState(() {
-                    isloading = true;
-                  });
-                  try {
-                    await ProductService()
-                        .deleteProduct(products?[index].id ?? "");
-                    products!.remove(products?[index]);
-                    setState(() {});
-                    setState(() {
-                      isloading = false;
-                    });
-                  } catch (e) {
-                    log(e.toString());
-                  }
-                },
-                icon: isloading
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Icon(Icons.delete))),
-      ),
     );
   }
 }

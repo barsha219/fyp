@@ -30,7 +30,11 @@ class _BookMarkViewState extends State<BookMarkView> {
               log(box.toString());
 
               if (Hive.box("product").isEmpty) {
-                return const Center(child: Text("No Favourites Yet"));
+                return const Center(
+                    child: Text("No Favourites Yet",
+                        style: TextStyle(fontSize: 20)));
+                // style: Theme.of(context).textTheme.headline6,
+
               }
               return ListView.builder(
                 itemCount: Hive.box("product").length,

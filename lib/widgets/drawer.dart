@@ -38,7 +38,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             title: const Text("Profile"),
             onTap: () {
-              AuthService.instance.logout();
+              // AuthService.instance.logout();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const ProfileView()));
             },

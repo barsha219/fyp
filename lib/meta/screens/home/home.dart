@@ -69,6 +69,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
+        centerTitle: true,
         title: const Text(
           "Home",
           style: TextStyle(fontSize: 22, color: Colors.black54),

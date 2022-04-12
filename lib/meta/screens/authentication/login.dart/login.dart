@@ -14,8 +14,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool loading = false;
-  bool value = false;
+  bool loading = false; // loadiing indicator
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   final TextEditingController _email = TextEditingController();
 
@@ -80,12 +84,13 @@ class _LoginViewState extends State<LoginView> {
                   },
                 ),
               ),
-          
               const SizedBox(height: 20),
               FlatButton(
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => SignUpView()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpView()));
                   },
                   child: const Text("Create an Account? Sign Up."))
             ],

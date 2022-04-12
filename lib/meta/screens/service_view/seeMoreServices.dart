@@ -1,9 +1,5 @@
-import 'package:beauty_store/meta/screens/service_view/service_view.dart';
-import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/models/services.models.dart';
-import 'package:beauty_store/services/product.service.dart';
 import 'package:beauty_store/services/services.service.dart';
-import 'package:beauty_store/widgets/product_widget.dart';
 import 'package:beauty_store/widgets/services_widget.dart';
 import 'package:flutter/material.dart';
 

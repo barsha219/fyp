@@ -1,7 +1,5 @@
 import 'package:beauty_store/config/app_config.dart';
 import 'package:beauty_store/meta/screens/dashboard/dashboard.dart';
-import 'package:beauty_store/meta/screens/get_started/get_started.dart';
-import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {

@@ -6,6 +6,7 @@
 // import 'package:beautystore/app/meta/screens/home/views/profile/profile.dart';
 // import 'package:beautystore/app/meta/screens/home/views/services/services.dart';
 import 'package:beauty_store/meta/screens/Bookmark/bookmark.dart';
+import 'package:beauty_store/meta/screens/blogs/blog.dart';
 import 'package:beauty_store/meta/screens/booking/bookings.dart';
 import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _LayoutState extends State<Layout> {
     const HomeView(),
     const BookMarkView(),
     const Booking(),
-    Container(),
+    const BlogList(),
   ];
 
   int _index = 0;
@@ -46,8 +47,7 @@ class _LayoutState extends State<Layout> {
               icon: Icon(Icons.favorite), label: "Favourite"),
           BottomNavigationBarItem(
               icon: Icon(Icons.book_online), label: "Bookings"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.verified_user), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Blogs"),
         ],
       ),
       body: _screens[_index],

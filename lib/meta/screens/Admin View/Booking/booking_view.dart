@@ -31,7 +31,7 @@ class _ViewBookingState extends State<ViewBooking> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("All Bookings"),
+          title: const Text("All Bookings"),
           centerTitle: true,
         ),
         body: RefreshIndicator(
@@ -87,6 +87,8 @@ class _ViewBookingState extends State<ViewBooking> {
                                     .deleteBooking(booking.sId ?? "");
                                 Fluttertoast.showToast(msg: "Booking Deleted");
                                 setState(() => bookings?.remove(booking));
+                                Fluttertoast.showToast(
+                                    msg: "Booking deleted Successfully");
                               } catch (e) {
                                 log(e.toString());
                               }

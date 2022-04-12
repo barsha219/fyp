@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UserResponse {
@@ -68,12 +67,13 @@ class User {
         "isAdmin": isAdmin ?? false,
       };
 
+// widget profile pic of users name first word
   Widget get profilePic {
     // if (imageUrl == null)
     {
       return CircleAvatar(
         radius: 40,
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.pinkAccent[100],
         child: Text(name![0].toUpperCase(),
             style: GoogleFonts.lato(
                 textStyle: const TextStyle(

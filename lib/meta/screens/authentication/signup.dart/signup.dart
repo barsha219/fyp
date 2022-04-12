@@ -107,8 +107,10 @@ class _SignUpViewState extends State<SignUpView> {
               const SizedBox(height: 20),
               FlatButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginView()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginView()));
                 },
                 child: const Text(
                   "I have an account. LogIn?",

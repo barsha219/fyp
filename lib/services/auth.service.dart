@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:beauty_store/meta/screens/home/home.dart';
 import 'package:beauty_store/models/user_models.dart';
 import 'package:beauty_store/widgets/button_nav_bar.dart';
 import 'package:dio/dio.dart';
@@ -79,14 +78,14 @@ class AuthService {
       final response = await Dio().post(
         'https://beautystore-app.herokuapp.com/api/auth/update',
         data: {
-          'userId': user?.id,
-          'name': data['name'],
-          'phoneNumber': data['phoneNumber'],
-          'address': data['address'],
+          "userId": user?.id,
+          "name": data["name"],
+          "phoneNumber": data["phoneNumber"],
+          "address": data["address"],
         },
       );
       if (response.statusCode == 200) {
-        user = User.fromMap(response.data['user']);
+        user = User.fromMap(response.data["user"]);
         log(response.data.toString());
       }
     } catch (e) {

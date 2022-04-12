@@ -83,6 +83,9 @@ class _ManageCategoryState extends State<ManageCategory> {
                                           msetState(() {
                                             isloading = false;
                                           });
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Category Added Successfully");
                                         } catch (e) {
                                           log(e.toString());
                                         }
@@ -131,12 +134,14 @@ class _ManageCategoryState extends State<ManageCategory> {
                         setState(() {
                           isloading = false;
                         });
+                        Fluttertoast.showToast(
+                            msg: "Category Deleted Successfully");
                       } catch (e) {
                         log(e.toString());
                       }
                     },
                     icon: isloading
-                        ? SizedBox(
+                        ? const SizedBox(
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
@@ -144,7 +149,7 @@ class _ManageCategoryState extends State<ManageCategory> {
                               color: Colors.white,
                             ),
                           )
-                        : Icon(Icons.delete)),
+                        : const Icon(Icons.delete)),
               ),
             ),
     );

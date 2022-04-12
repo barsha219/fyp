@@ -56,12 +56,16 @@ class _ServiceViewState extends State<ServiceView> {
         '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}';
     setState(() => date = todayDate);
     setState(() => loading = true);
+    setState(() {
+      timeslot = Copytimeslot;
+    });
     final response = await BookingService()
         .fetchAllServiceOfThatDate(widget.service.id ?? "", date ?? todayDate);
     // log("uta bata timeslot k k ako xa... " + response.toString());
     // log("seletced date k xa..? " + todayDate.toString());
     if (response.isNotEmpty) {
       for (var res in response) {
+        log(res.bookingTime.toString());
         if (timeslot.contains(res.bookingTime)) {
           timeslot.remove(res.bookingTime);
           setState(() {});
@@ -74,11 +78,12 @@ class _ServiceViewState extends State<ServiceView> {
     }
     // log('date k k xa actual... ' + timeslot.toString());
     setState(() => loading = false);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    log(AuthService.instance.user!.id.toString());
+    // log(AuthService.instance.user!.id.toString());
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white70),
@@ -109,14 +114,17 @@ class _ServiceViewState extends State<ServiceView> {
                       spacing: 12,
                       children: List.generate(
                         timeslot.length,
-                        (index) => ActionChip(
-                            backgroundColor: timeslot[index] == time
-                                ? Colors.amber
-                                : Colors.white,
-                            label: Text(timeslot[index]),
-                            onPressed: () {
-                              setState(() => time = timeslot[index]);
-                            }),
+                        (index) {
+                          // log(timeslot[index].toString());
+                          return ActionChip(
+                              backgroundColor: timeslot[index] == time
+                                  ? Colors.amber
+                                  : Colors.white,
+                              label: Text(timeslot[index]),
+                              onPressed: () {
+                                setState(() => time = timeslot[index]);
+                              });
+                        },
                       ),
                     ),
             ),
@@ -155,7 +163,7 @@ class _ServiceViewState extends State<ServiceView> {
                   // log(widget.service.id);
                   // log(AuthService.instance.user!.toMap().toString());
                   await BookingService().addBookings(context, {
-                    "serviceId": widget.service.id,
+                    "serviceId": widget.service.name,
                     "name": AuthService.instance.user?.name,
                     "bookedBy": AuthService.instance.user?.id,
                     "bookingDate": date,
