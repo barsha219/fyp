@@ -76,6 +76,8 @@ class _ViewBookingState extends State<ViewBooking> {
                           const SizedBox(height: 6),
                           Text("Service Name: ${booking.serviceId}"),
                           const SizedBox(height: 6),
+                          Text("Service Price: ${booking.price}"),
+                          const SizedBox(height: 6),
                           Text("Booked Date: ${booking.bookingDate}"),
                           const SizedBox(height: 6),
                           Text(

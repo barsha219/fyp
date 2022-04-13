@@ -25,6 +25,7 @@ class _AddServiceState extends State<AddService> {
   }
 
   final TextEditingController controller = TextEditingController();
+  final TextEditingController con_price = TextEditingController();
 
   File? file;
   @override
@@ -61,6 +62,15 @@ class _AddServiceState extends State<AddService> {
                                           hintText: "Add Service Name"),
                                     ),
                                     const SizedBox(height: 20),
+                                    TextField(
+                                      keyboardType: TextInputType.phone,
+                                      controller: con_price,
+                                      style: const TextStyle(fontSize: 15),
+                                      onChanged: (value) {},
+                                      decoration: const InputDecoration(
+                                          hintText: "Add Service Price"),
+                                    ),
+                                    const SizedBox(height: 20),
                                     ElevatedButton.icon(
                                       onPressed: () async {
                                         file = File((await ImagePicker()
@@ -77,9 +87,15 @@ class _AddServiceState extends State<AddService> {
                                     ElevatedButton(
                                         onPressed: () async {
                                           if (controller.text.trim().isEmpty &&
+                                              con_price.text.trim().isEmpty &&
                                               file == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Service name required");
+                                          } else if (con_price.text
+                                              .trim()
+                                              .isEmpty) {
+                                            Fluttertoast.showToast(
+                                                msg: "Image Required");
                                           } else if (file == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Image Required");
@@ -92,6 +108,7 @@ class _AddServiceState extends State<AddService> {
                                                   await ServicesItems()
                                                       .addService(
                                                           name: controller.text,
+                                                          price: con_price.text,
                                                           imageUrl: file!);
                                               init();
                                               controller.clear();

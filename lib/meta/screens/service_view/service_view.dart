@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:beauty_store/models/services.models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/booking.service.dart';
+import 'package:beauty_store/services/services.service.dart';
 import 'package:beauty_store/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,7 +28,7 @@ class _ServiceViewState extends State<ServiceView> {
     '6pm'
   ];
 
-  final List<String> Copytimeslot = [
+  final List<String> copytimeslot = [
     '10am',
     '11am',
     '12pm',
@@ -57,7 +58,7 @@ class _ServiceViewState extends State<ServiceView> {
     setState(() => date = todayDate);
     setState(() => loading = true);
     setState(() {
-      timeslot = Copytimeslot;
+      timeslot = copytimeslot;
     });
     final response = await BookingService()
         .fetchAllServiceOfThatDate(widget.service.id ?? "", date ?? todayDate);
@@ -70,11 +71,11 @@ class _ServiceViewState extends State<ServiceView> {
           timeslot.remove(res.bookingTime);
           setState(() {});
         } else {
-          setState(() => timeslot = Copytimeslot);
+          setState(() => timeslot = copytimeslot);
         }
       }
     } else {
-      setState(() => timeslot = Copytimeslot);
+      setState(() => timeslot = copytimeslot);
     }
     // log('date k k xa actual... ' + timeslot.toString());
     setState(() => loading = false);
@@ -88,8 +89,11 @@ class _ServiceViewState extends State<ServiceView> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white70),
         elevation: 0,
-        title: Text(widget.service.name ?? "",
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        title: Text(
+          widget.service.name ?? "",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -100,6 +104,9 @@ class _ServiceViewState extends State<ServiceView> {
             const SizedBox(height: 20),
             Text(widget.service.name ?? "",
                 style: Theme.of(context).textTheme.headline6),
+            const SizedBox(height: 20),
+            Text("Rs. " + widget.service.price.toString(),
+                style: Theme.of(context).textTheme.headline5),
             const SizedBox(
               height: 20,
             ),
@@ -139,7 +146,7 @@ class _ServiceViewState extends State<ServiceView> {
                   ).then((value) async {
                     // log(Copytimeslot.toString());
                     setState(() {
-                      timeslot = Copytimeslot;
+                      timeslot = copytimeslot;
                     });
                     final mdate = "${value!.year}/${value.month}/${value.day}";
                     date = mdate;
@@ -165,6 +172,7 @@ class _ServiceViewState extends State<ServiceView> {
                   await BookingService().addBookings(context, {
                     "serviceId": widget.service.name,
                     "name": AuthService.instance.user?.name,
+                    "price": widget.service.price,
                     "bookedBy": AuthService.instance.user?.id,
                     "bookingDate": date,
                     "bookingTime": time,

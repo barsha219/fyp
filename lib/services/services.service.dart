@@ -7,6 +7,18 @@ import 'package:dio/dio.dart';
 class ServicesItems {
   final Dio _dio = Dio();
 
+  Services? services;
+
+  //   converting into singleton so that we can use the instance of class where needed
+  static final ServicesItems instance =
+      ServicesItems._internal(); //instance of a class
+
+  factory ServicesItems() {
+    return instance;
+  }
+
+  ServicesItems._internal();
+
   //  fetch all Services
   Future<List<Services>> fetchAllServices() async {
     try {
@@ -34,11 +46,13 @@ class ServicesItems {
   }
 
   Future<String> addService(
-      {required String name, required File imageUrl}) async {
+      {required String name,
+      required String price,
+      required File imageUrl}) async {
     try {
       final image = await uploadFile(file: imageUrl);
       var response = await _dio.post(AppConfig.baseUrl + "api/services/add",
-          data: {'name': name, 'image': image});
+          data: {'name': name, 'price': price, 'image': image});
       if (response.statusCode == 200) {
         return image;
       } else {
