@@ -163,7 +163,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     SizedBox(
-                        height: 180,
+                        height: 220,
                         child: _productDub == null
                             ? const Center(
                                 child: CircularProgressIndicator.adaptive())
@@ -173,7 +173,7 @@ class _HomeViewState extends State<HomeView> {
                                 itemBuilder: (context, index) {
                                   Product product = _productDub![index];
                                   return SizedBox(
-                                    width: 120.0,
+                                    width: 125.0,
                                     child: InkWell(
                                       onTap: () {
                                         Navigator.push(context,
@@ -188,8 +188,8 @@ class _HomeViewState extends State<HomeView> {
                                           Card(
                                             color: Colors.white,
                                             child: Container(
-                                              height: 140,
-                                              width: 100,
+                                              height: 180,
+                                              width: 140,
                                               decoration: _productDub != null
                                                   ? BoxDecoration(
                                                       borderRadius:
@@ -270,7 +270,7 @@ class _HomeViewState extends State<HomeView> {
 
                   // Services data
                   SizedBox(
-                      height: 180,
+                      height: 220,
                       child: FutureBuilder<List<Services>>(
                           future: ServicesItems().fetchAllServices(),
                           builder: (context, snapshot) {
@@ -286,7 +286,7 @@ class _HomeViewState extends State<HomeView> {
                               itemBuilder: (context, index) {
                                 Services service = _services[index];
                                 return SizedBox(
-                                  width: 120.0,
+                                  width: 125.0,
                                   child: InkWell(
                                     onTap: () {
                                       Navigator.push(context,
@@ -301,8 +301,8 @@ class _HomeViewState extends State<HomeView> {
                                         Card(
                                           color: Colors.white,
                                           child: Container(
-                                            height: 140,
-                                            width: 100,
+                                            height: 180,
+                                            width: 140,
                                             decoration: snapshot.data != null
                                                 ? BoxDecoration(
                                                     borderRadius:

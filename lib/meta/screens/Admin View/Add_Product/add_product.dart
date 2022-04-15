@@ -90,6 +90,10 @@ class _AddProductState extends State<AddProduct> {
                                   const SizedBox(height: 20),
                                   TextField(
                                     controller: description,
+                                    minLines:
+                                        6, // any number (It works as the rows for the textarea)
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
                                     style: const TextStyle(fontSize: 15),
                                     decoration: const InputDecoration(
                                       hintText: 'Description',
@@ -185,13 +189,13 @@ class _AddProductState extends State<AddProduct> {
                                             price.clear();
                                             name.clear();
                                             msetState(() => file = null);
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Product Added Successfully");
                                             Navigator.pop(context);
                                             setState(() {
                                               isloading = false;
                                             });
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "Product Added Successfully");
                                           } catch (e) {
                                             log(e.toString());
                                           }
@@ -237,6 +241,7 @@ class _AddProductState extends State<AddProduct> {
                     padding: const EdgeInsets.all(4.0),
                     child: SizedBox(
                         height: 100,
+                        width: 50,
                         child: Image.network(products![index].image!)),
                   ),
                   trailing: IconButton(
@@ -253,7 +258,7 @@ class _AddProductState extends State<AddProduct> {
                             isloading = false;
                           });
                           Fluttertoast.showToast(
-                              msg: "Product Removed Successfully");
+                              msg: "Product Deleted Successfully");
                         } catch (e) {
                           log(e.toString());
                         }

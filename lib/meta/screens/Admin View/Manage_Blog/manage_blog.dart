@@ -97,13 +97,13 @@ class _ViewBlogState extends State<ViewBlog> {
                                             await init();
                                             title.clear();
                                             description.clear();
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Blog Created Successfully");
                                             Navigator.pop(context);
                                             msetState(() {
                                               isloading = false;
                                             });
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "Blog Created Successfully");
                                           } catch (e) {
                                             log(e.toString());
                                           }

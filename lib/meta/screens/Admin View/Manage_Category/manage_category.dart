@@ -79,13 +79,13 @@ class _ManageCategoryState extends State<ManageCategory> {
                                               .addCategory(controller.text);
                                           await init();
                                           controller.clear();
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Category Added Successfully");
                                           Navigator.pop(context);
                                           msetState(() {
                                             isloading = false;
                                           });
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "Category Added Successfully");
                                         } catch (e) {
                                           log(e.toString());
                                         }

@@ -95,7 +95,7 @@ class _AddServiceState extends State<AddService> {
                                               .trim()
                                               .isEmpty) {
                                             Fluttertoast.showToast(
-                                                msg: "Image Required");
+                                                msg: "Price Required");
                                           } else if (file == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Image Required");
@@ -112,7 +112,11 @@ class _AddServiceState extends State<AddService> {
                                                           imageUrl: file!);
                                               init();
                                               controller.clear();
+                                              con_price.clear();
                                               msetState(() => file = null);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Service Added Successfully");
                                               Navigator.pop(context);
                                               msetState(() {
                                                 isloading = false;
@@ -158,6 +162,7 @@ class _AddServiceState extends State<AddService> {
                   title: Text(services![index].name ?? ""),
                   leading: SizedBox(
                     height: 60,
+                    width: 90,
                     child: Image.network(services![index].image ?? ""),
                   ),
                   trailing: IconButton(
@@ -174,9 +179,7 @@ class _AddServiceState extends State<AddService> {
                             isloading = false;
                           });
                           Fluttertoast.showToast(
-                              msg: "Service Added Successfully");
-                          Fluttertoast.showToast(
-                              msg: "Service Removed Successfully");
+                              msg: "Service Deleted Successfully");
                         } catch (e) {
                           log(e.toString());
                         }

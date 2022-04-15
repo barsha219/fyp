@@ -40,58 +40,60 @@ class _ProductDetailsState extends State<ProductDetails> {
                   : const Icon(Icons.favorite_border)),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Card(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                elevation: 0,
-                color: Colors.white.withOpacity(0.3),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                          height: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(widget.product.image ?? ""),
-                            ),
-                          )),
-                      const SizedBox(height: 12.0),
-                      Text(
-                        widget.product.name ?? "",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(fontSize: 24),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Rs. " + widget.product.price.toString(),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        widget.product.description ?? "",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Card(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  elevation: 0,
+                  color: Colors.white.withOpacity(0.3),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                            height: 300,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage(widget.product.image ?? ""),
+                              ),
+                            )),
+                        const SizedBox(height: 12.0),
+                        Text(
+                          widget.product.name ?? "",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(fontSize: 24),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Text(
+                          "Rs. " + widget.product.price.toString(),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          widget.product.description ?? "",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
