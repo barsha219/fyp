@@ -274,6 +274,12 @@ class _HomeViewState extends State<HomeView> {
                       child: FutureBuilder<List<Services>>(
                           future: ServicesItems().fetchAllServices(),
                           builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator.adaptive());
+                            }
+
                             if (!snapshot.hasData) {
                               return const Center(
                                   child: Text("No Services Found"));
