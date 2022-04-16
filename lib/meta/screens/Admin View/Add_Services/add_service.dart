@@ -107,7 +107,8 @@ class _AddServiceState extends State<AddService> {
                                               final image =
                                                   await ServicesItems()
                                                       .addService(
-                                                          name: controller.text,
+                                                          serviceName:
+                                                              controller.text,
                                                           price: con_price.text,
                                                           imageUrl: file!);
                                               init();
@@ -159,7 +160,7 @@ class _AddServiceState extends State<AddService> {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   contentPadding: const EdgeInsets.all(8),
-                  title: Text(services![index].name ?? ""),
+                  title: Text(services![index].serviceName ?? ""),
                   leading: SizedBox(
                     height: 60,
                     width: 90,

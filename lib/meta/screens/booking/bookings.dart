@@ -87,13 +87,15 @@ class _BookingState extends State<Booking> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Name: ${booking.name}"),
+                  // Text("serviceId: ${booking.serviceId}"),
+                  // const SizedBox(height: 6),
+                  Text("Customer Name: ${booking.name}"),
                   const SizedBox(height: 6),
                   Text("Phone Number: ${booking.contactNumber}"),
                   const SizedBox(height: 6),
-                  Text("Booked For: ${booking.bookingTime}"),
+                  Text("Service Id: ${booking.serviceName}"),
                   const SizedBox(height: 6),
-                  Text("Service Name: ${booking.serviceId}"),
+                  Text("Booked For: ${booking.bookingTime}"),
                   const SizedBox(height: 6),
                   Text("Service Price: ${booking.price}"),
                   const SizedBox(height: 6),

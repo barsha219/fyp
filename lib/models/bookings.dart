@@ -31,6 +31,7 @@ class Bookings {
   String? sId;
   String? name;
   String? serviceId;
+  String? serviceName;
   String? bookedBy;
   String? bookingDate;
   String? bookingTime;
@@ -44,6 +45,7 @@ class Bookings {
       {this.sId,
       this.name,
       this.serviceId,
+      this.serviceName,
       this.price,
       this.bookedBy,
       this.bookingDate,
@@ -57,6 +59,7 @@ class Bookings {
     sId = json['_id'];
     name = json['name'];
     serviceId = json['serviceId'];
+    serviceName = json['serviceName'];
     price = json['price'];
     bookedBy = json['bookedBy'];
     bookingDate = json['bookingDate'];
@@ -72,6 +75,7 @@ class Bookings {
     data['_id'] = sId;
     data['name'] = name;
     data['serviceId'] = serviceId;
+    data['serviceName'] = serviceName;
     data['bookedBy'] = bookedBy;
     data['bookingDate'] = bookingDate;
     data['bookingTime'] = bookingTime;

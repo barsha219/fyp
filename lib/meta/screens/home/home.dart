@@ -279,11 +279,11 @@ class _HomeViewState extends State<HomeView> {
                               return const Center(
                                   child: CircularProgressIndicator.adaptive());
                             }
-
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                  child: Text("No Services Found"));
-                            }
+                            // if (snapshot.connectionState ==
+                            //     ConnectionState.none) {
+                            //   return const Center(
+                            //       child: Text("No Services Found"));
+                            // }
                             List<Services> _services =
                                 snapshot.data as List<Services>;
                             return ListView.builder(
@@ -334,7 +334,7 @@ class _HomeViewState extends State<HomeView> {
                                               color: const Color.fromARGB(
                                                   255, 228, 228, 228)),
                                           child: Text(
-                                            service.name ?? "",
+                                            service.serviceName ?? "",
                                             textAlign: TextAlign.center,
                                             softWrap: true,
                                             maxLines: 1,

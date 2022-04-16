@@ -73,7 +73,7 @@ class User {
     {
       return CircleAvatar(
         radius: 40,
-        backgroundColor: Colors.pinkAccent[100],
+        backgroundColor: Color.fromARGB(255, 144, 161, 246),
         child: Text(name![0].toUpperCase(),
             style: GoogleFonts.lato(
                 textStyle: const TextStyle(

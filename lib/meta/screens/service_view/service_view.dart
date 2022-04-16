@@ -1,9 +1,7 @@
 import 'dart:developer';
-import 'package:beauty_store/models/bookings.dart';
 import 'package:beauty_store/models/services.models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/booking.service.dart';
-import 'package:beauty_store/services/services.service.dart';
 import 'package:beauty_store/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,19 +15,7 @@ class ServiceView extends StatefulWidget {
 }
 
 class _ServiceViewState extends State<ServiceView> {
-  List timeslot = [
-    '10am',
-    '11am',
-    '12pm',
-    '1pm',
-    '2pm',
-    '3pm',
-    '4pm',
-    '5pm',
-    '6pm'
-  ];
-
-  final List<String> copytimeslot = [
+  final List timeslot = [
     '10am',
     '11am',
     '12pm',
@@ -55,17 +41,20 @@ class _ServiceViewState extends State<ServiceView> {
   List<String> bookingsTimeSlot = [];
 
   init() async {
-    List<String> bookingsTimeSlot = [];
+    bookingsTimeSlot = [];
+    setState(() {});
     String todayDate = date ??
         '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}';
     setState(() => date = todayDate);
     setState(() => loading = true);
     final response = await BookingService()
         .fetchAllServiceOfThatDate(widget.service.id ?? "", date ?? todayDate);
+    log(response.toString());
     for (var i = 0; i < response.length; i++) {
       bookingsTimeSlot.add(response[i].bookingTime!);
+      setState(() {});
+      log(bookingsTimeSlot.toString());
     }
-
     setState(() => loading = false);
   }
 
@@ -75,21 +64,24 @@ class _ServiceViewState extends State<ServiceView> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white70),
-        elevation: 0,
+        // elevation: 0,
         centerTitle: true,
         title: Text(
-          widget.service.name ?? "",
+          widget.service.serviceName ?? "",
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             SizedBox(
-                height: 300, child: Image.network(widget.service.image ?? "")),
+              width: 300,
+              // height: 500,
+              child: Image.network(widget.service.image ?? ""),
+            ),
             const SizedBox(height: 20),
-            Text(widget.service.name ?? "",
+            Text(widget.service.serviceName ?? "",
                 style: Theme.of(context).textTheme.headline6),
             const SizedBox(height: 20),
             Text("Rs. " + widget.service.price.toString(),
@@ -104,58 +96,50 @@ class _ServiceViewState extends State<ServiceView> {
                       child: CircularProgressIndicator(
                       color: Colors.white,
                     ))
-                  // : Wrap(
-                  //     spacing: 12,
-                  //     children: List.generate(
-                  //       timeslot.length,
-                  //       (index) {
-                  //         // log(timeslot[index].toString());
-                  //         bookingsTimeSlot.contains(timeslot[index])
-                  //             ?   ActionChip(
-                  //                 backgroundColor: timeslot[index] == time
-                  //                     ? Colors.amber
-                  //                     : Colors.white,
-                  //                 label: Text(timeslot[index]),
-                  //                 onPressed: () {
-                  //                   setState(() => time = timeslot[index]);
-                  //                 })
-                  //             : null;
-                  //       },
-                  //     ),
-                  //   ),
                   : Wrap(
                       children: [
                         for (var i = 0; i < timeslot.length; i++)
                           !bookingsTimeSlot.contains(timeslot[i])
-                              ? ActionChip(
-                                  label: Text(timeslot[i]),
-                                  onPressed: () {
-                                    setState(() {
-                                      time = timeslot[i];
-                                    });
-                                  })
-                              : SizedBox.shrink(),
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  child: ActionChip(
+                                      backgroundColor: timeslot[i] == time
+                                          ? Colors.amber
+                                          : Colors.white,
+                                      label: Text(timeslot[i]),
+                                      onPressed: () {
+                                        setState(() {
+                                          time = timeslot[i];
+                                        });
+                                      }),
+                                )
+                              : const SizedBox.shrink(),
                       ],
                     ),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate:
-                        DateTime(DateTime.now().year, DateTime.now().month + 1),
-                  ).then((value) async {
-                    final mdate = "${value!.year}/${value.month}/${value.day}";
-                    date = mdate;
-                    await init();
-                    setState(() {});
-                  });
-                },
-                child: Text(date ?? 'Selecte Date')),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(
+                          DateTime.now().year, DateTime.now().month + 1),
+                    ).then((value) async {
+                      final mdate =
+                          "${value!.year}/${value.month}/${value.day}";
+                      date = mdate;
+                      await init();
+                      setState(() {});
+                    });
+                  },
+                  child: Text(date ?? 'Selecte Date')),
+            ),
             const SizedBox(
-              height: 30,
+              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -169,7 +153,8 @@ class _ServiceViewState extends State<ServiceView> {
                   // log(widget.service.id);
                   // log(AuthService.instance.user!.toMap().toString());
                   await BookingService().addBookings(context, {
-                    "serviceId": widget.service.name,
+                    "serviceId": widget.service.id,
+                    "serviceName": widget.service.serviceName,
                     "name": AuthService.instance.user?.name,
                     "price": widget.service.price,
                     "bookedBy": AuthService.instance.user?.id,

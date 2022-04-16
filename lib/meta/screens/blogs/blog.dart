@@ -34,7 +34,7 @@ class _BlogListState extends State<BlogList> {
       appBar: AppBar(
         title: const Text("Blogs"),
         centerTitle: true,
-        elevation: 0,
+        // elevation: 0,
       ),
       body: isloading
           ? const Center(

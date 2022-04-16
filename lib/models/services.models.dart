@@ -35,7 +35,7 @@ class ServiceResponse {
 class Services {
   Services({
     this.id,
-    this.name,
+    this.serviceName,
     this.price,
     this.image,
     this.createdAt,
@@ -43,7 +43,7 @@ class Services {
   });
 
   String? id;
-  String? name;
+  String? serviceName;
   int? price;
   String? image;
   DateTime? createdAt;
@@ -51,7 +51,7 @@ class Services {
 
   factory Services.fromJson(json) => Services(
         id: json["_id"],
-        name: json["name"],
+        serviceName: json["serviceName"],
         price: json["price"],
         image: json["image"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -60,7 +60,7 @@ class Services {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "name": name,
+        "serviceName": serviceName,
         "price": price,
         "image": image,
         "createdAt": createdAt!.toIso8601String(),

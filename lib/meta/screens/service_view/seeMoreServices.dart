@@ -32,13 +32,18 @@ class _SeeMoreServicesState extends State<SeeMoreServices> {
         title: const Text("All Services"),
         backgroundColor: const Color(0xffa6baef),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 0),
-        itemCount: _services?.length ?? 0,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.all(6),
-          child: ServiceWidget(services: _services![index]),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _services = await ServicesItems().fetchAllServices();
+        },
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 0),
+          itemCount: _services?.length ?? 0,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.all(6),
+            child: ServiceWidget(services: _services![index]),
+          ),
         ),
       ),
     );

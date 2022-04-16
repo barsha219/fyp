@@ -4,7 +4,6 @@ import 'package:beauty_store/meta/screens/product.details.dart';
 import 'package:beauty_store/models/product_models.dart';
 import 'package:beauty_store/widgets/cacheImageView.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class BookMarkView extends StatefulWidget {
@@ -20,7 +19,7 @@ class _BookMarkViewState extends State<BookMarkView> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Favourites"),
-          elevation: 0,
+          // elevation: 0,
           centerTitle: true,
           // backgroundColor: Colors.blueAccent,
         ),

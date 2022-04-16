@@ -46,13 +46,13 @@ class ServicesItems {
   }
 
   Future<String> addService(
-      {required String name,
+      {required String serviceName,
       required String price,
       required File imageUrl}) async {
     try {
       final image = await uploadFile(file: imageUrl);
       var response = await _dio.post(AppConfig.baseUrl + "api/services/add",
-          data: {'name': name, 'price': price, 'image': image});
+          data: {'serviceName': serviceName, 'price': price, 'image': image});
       if (response.statusCode == 200) {
         return image;
       } else {

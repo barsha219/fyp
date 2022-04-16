@@ -43,7 +43,7 @@ class ServiceWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: const Color.fromARGB(255, 228, 228, 228)),
             child: Text(
-              services.name ?? "",
+              services.serviceName ?? "",
               textAlign: TextAlign.center,
               softWrap: true,
               maxLines: 1,
