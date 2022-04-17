@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:beauty_store/meta/screens/booking/bookings.dart';
 import 'package:beauty_store/models/services.models.dart';
 import 'package:beauty_store/services/auth.service.dart';
 import 'package:beauty_store/services/booking.service.dart';
@@ -169,10 +170,9 @@ class _ServiceViewState extends State<ServiceView> {
                   });
                   Fluttertoast.showToast(
                       msg: "Your Booking has been Confirmed");
-                  // Navigator.pushAndRemoveUntil(
-                  //     context,
-                  //     MaterialPageRoute(builder: (builder) => const Booking()),
-                  //     (route) => false);
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Booking()));
                 },
                 loading: loading,
               ),
