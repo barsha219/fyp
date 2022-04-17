@@ -279,11 +279,10 @@ class _HomeViewState extends State<HomeView> {
                               return const Center(
                                   child: CircularProgressIndicator.adaptive());
                             }
-                            // if (snapshot.connectionState ==
-                            //     ConnectionState.none) {
-                            //   return const Center(
-                            //       child: Text("No Services Found"));
-                            // }
+                            if (snapshot.data == null) {
+                              return const Center(
+                                  child: Text("No Services Found"));
+                            }
                             List<Services> _services =
                                 snapshot.data as List<Services>;
                             return ListView.builder(
@@ -354,21 +353,6 @@ class _HomeViewState extends State<HomeView> {
           ]),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: "Home",
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.favorite), label: "Favorite"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.book_online), label: "Booking"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.verified_user), label: "Profile"),
-      //   ],
-      // ),
       drawer: const MyDrawer(),
     );
   }
